@@ -7,9 +7,12 @@ import logging
 import textwrap
 
 import asyncio
-
+import random
+import datetime
 from discord.ext import commands
 bot = commands.Bot(command_prefix=f.prefix)
+intents=discord.Intents.all()
+intents.members = True
 
 
 
@@ -142,7 +145,6 @@ async def on_ready():
     print("Bot is ready!")
 
 
-
 @bot.event
 async def on_command_error(ctx, error):
     ch = 799505924280156192
@@ -155,6 +157,9 @@ async def on_command_error(ctx, error):
     embed.add_field(name="発生エラー", value=error, inline=False)
     m = await bot.get_channel(ch).send(embed=embed)
     await ctx.send("エラーが発生しました")
+
+
+
 bot.run(f.TOKEN)
 
 

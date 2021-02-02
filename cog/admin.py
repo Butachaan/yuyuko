@@ -20,7 +20,7 @@ from contextlib import redirect_stdout
 import asyncio
 
 def check_if_it_is_me(ctx):
-    return ctx.message.author.id == 478126443168006164,385746925040828418
+    return ctx.message.author.id == 385746925040828418,478126443168006164
 
 class AdminCog(commands.Cog, name="Admin"):
     """
@@ -177,13 +177,20 @@ class AdminCog(commands.Cog, name="Admin"):
     async def announce(self, ctx, *, message):
         """```admin```"""
         await ctx.message.delete()
+        ch = self.bot.get_channel(757777897992880211)
         em = discord.Embed(title="お知らせ", color=0x5d00ff)
         em.set_author(name="[y/]幽々子",
                       url="https://cdn.discordapp.com/avatars/757807145264611378/f6e2d7ff1f8092409983a77952670eae.png?size=512",
                       icon_url="https://cdn.discordapp.com/avatars/757807145264611378/f6e2d7ff1f8092409983a77952670eae.png?size=512")
 
         em.description = message
-        await ctx.send(embed=em)
+        try:
+            await ch.send(embed=em)
+            await ctx.send("アナウンスしました")
+        except discord.Forbidden:
+            await ctx.send("> 送信できません！\n　botに必要な権限が割り当てられているかどうかを確認してください。")
+        except discord.HTTPException:
+            await ctx.send("> 送信できません！\n　メッセージの送信に失敗しました。")
 
     @commands.check(check_if_it_is_me)
     @commands.command()
