@@ -19,6 +19,8 @@ import traceback
 from contextlib import redirect_stdout
 import asyncio
 
+def check_if_it_is_me(ctx):
+    return ctx.message.author.id == 478126443168006164,385746925040828418
 
 class AdminCog(commands.Cog, name="Admin"):
     """
@@ -94,7 +96,7 @@ class AdminCog(commands.Cog, name="Admin"):
         msg += '```'
         await ctx.send(msg)
 
-    @commands.is_owner()
+    @commands.check(check_if_it_is_me)
     @commands.command(pass_context=True, name='eval')
     async def _eval(self, ctx, *, body: str):
         """Evaluates a code"""
@@ -170,8 +172,7 @@ class AdminCog(commands.Cog, name="Admin"):
         em.add_field(name="結果", value=f"{discord.Game(game)}に変わりました")
         await ctx.send(embed=em)
 
-    @commands.has_any_role(805783198567104523)
-    @commands.is_owner()
+    @commands.check(check_if_it_is_me)
     @commands.command(name="announce", aliases=["ann"], description="アナウンス用")
     async def announce(self, ctx, *, message):
         """```admin```"""
@@ -184,7 +185,7 @@ class AdminCog(commands.Cog, name="Admin"):
         em.description = message
         await ctx.send(embed=em)
 
-    @commands.is_owner()
+    @commands.check(check_if_it_is_me)
     @commands.command()
     async def news(self, ctx, *, message):
         """```admin```"""
@@ -210,7 +211,7 @@ class AdminCog(commands.Cog, name="Admin"):
             await ctx.reply("私のニックネームを" + name + "に変更したよ。")
 
     @commands.command(name="dm", aliases=["d", "send"], description="```dmを送る```")
-    @commands.is_owner()
+    @commands.check(check_if_it_is_me)
     async def dm(self, ctx, user_id: int, *, message: str):
         """`admin`"""
         user = self.bot.get_user(user_id)
