@@ -159,6 +159,7 @@ class AdminCog(commands.Cog, name="Admin"):
         await ctx.send(f'**:ok:** Ändere Status zu: **{discordStatus}**')
 
     @commands.command()
+    @commands.has_any_role(805783198567104523)
     @commands.is_owner()
     async def set_playing(self, ctx, *, game: str = None):
         """Set the playing status."""
@@ -169,12 +170,26 @@ class AdminCog(commands.Cog, name="Admin"):
         em.add_field(name="結果", value=f"{discord.Game(game)}に変わりました")
         await ctx.send(embed=em)
 
+    @commands.has_any_role(805783198567104523)
     @commands.is_owner()
     @commands.command(name="announce", aliases=["ann"], description="アナウンス用")
     async def announce(self, ctx, *, message):
         """```admin```"""
         await ctx.message.delete()
         em = discord.Embed(title="お知らせ", color=0x5d00ff)
+        em.set_author(name="[y/]幽々子",
+                      url="https://cdn.discordapp.com/avatars/757807145264611378/f6e2d7ff1f8092409983a77952670eae.png?size=512",
+                      icon_url="https://cdn.discordapp.com/avatars/757807145264611378/f6e2d7ff1f8092409983a77952670eae.png?size=512")
+
+        em.description = message
+        await ctx.send(embed=em)
+
+    @commands.is_owner()
+    @commands.command()
+    async def news(self, ctx, *, message):
+        """```admin```"""
+        await ctx.message.delete()
+        em = discord.Embed(title="紹介", color=0x5d00ff)
         em.set_author(name="[y/]幽々子",
                       url="https://cdn.discordapp.com/avatars/757807145264611378/f6e2d7ff1f8092409983a77952670eae.png?size=512",
                       icon_url="https://cdn.discordapp.com/avatars/757807145264611378/f6e2d7ff1f8092409983a77952670eae.png?size=512")
